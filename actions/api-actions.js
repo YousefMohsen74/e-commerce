@@ -12,7 +12,6 @@ export default async function GetNewCollection() {
 
     let allProducts = [];
 
-    // Fetch first 5 products from each category
     for (const category of categories) {
         const res = await fetch(`https://dummyjson.com/products/category/${category}?limit=5`);
         

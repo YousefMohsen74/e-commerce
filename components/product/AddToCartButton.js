@@ -31,17 +31,25 @@ export default function AddToCartButton({ product }) {
   }, [product.id]);
 
   const handleClick = () => {
-    addToCart(product);
+    if (product.availabilityStatus === "In Stock") {
+      addToCart(product);
+    }
   };
+
+  const isDisabled = inCart || product.availabilityStatus !== "In Stock";
 
   return (
     <button
-      className="w-full bg-black text-white rounded-lg h-10 flex justify-center items-center transition-all duration-300"
+      className={`w-full rounded-lg h-10 flex justify-center items-center transition-all duration-300 ${
+        isDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-black text-white"
+      }`}
       onClick={handleClick}
-      disabled={inCart} // Prevent multiple adds
+      disabled={isDisabled} // Prevent multiple adds & out-of-stock items
     >
       {inCart ? (
         <Link href={"/cart"}>&#x2713; View in Cart</Link>
+      ) : product.availabilityStatus !== "In Stock" ? (
+        "Out of Stock"
       ) : (
         "Add to Cart"
       )}
